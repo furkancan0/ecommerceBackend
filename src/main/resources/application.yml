@@ -1,0 +1,25 @@
+server:
+  port: 8050
+spring:
+  application:
+    name: e-commerce
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/ecommerce_db
+    username: furkan
+    password: furkan
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+
+stripe:
+  api:
+    secretKey: sk_test_51Pzxm3RuqFrNnmY14t814WWvooRupQQMVYOgQfUd9FZB4vnR7r139wPpPqsQ6CeEoKnel903OAuFcMtO0BPAVkuX005yeRtd03
+    publicKey: 
