@@ -1,4 +1,6 @@
--Spring Security 6 SecurityFilterChain, Jwt, RoleBased authorization  
+-Spring Security 6
+-Jwt 
+-RoleBased authorization  
 -Stripe Payment  
 -Global exception handle  
 -Spring mapper  
