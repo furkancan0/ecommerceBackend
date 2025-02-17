@@ -2,6 +2,7 @@ package com.furkan.ecommerce.handler;
 
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -42,6 +43,21 @@ public class GlobalExceptionHandler {
                 .status(BAD_REQUEST)
                 .body(
                         ExceptionResponse.builder()
+                                .validationErrors(errors)
+                                .build()
+                );
+    }
+
+    @ExceptionHandler(TransactionSystemException.class)
+    public ResponseEntity<ExceptionResponse> handleTransactionSystemException(TransactionSystemException exp) {
+        Set<String> errors = new HashSet<>();
+        Throwable rootCause = exp.getCause();
+        errors.add(rootCause.getMessage());
+        return ResponseEntity
+                .status(BAD_REQUEST)
+                .body(
+                        ExceptionResponse.builder()
+                                .businessErrorDescription("Out of stock")
                                 .validationErrors(errors)
                                 .build()
                 );

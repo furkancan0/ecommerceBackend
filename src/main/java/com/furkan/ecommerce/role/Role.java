@@ -25,7 +25,4 @@ public class Role {
     @Column(nullable = false)
     private String description;
 
-    @CreationTimestamp
-    @Column(updatable = false, name = "created_at")
-    private Date createdAt;
 }

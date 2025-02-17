@@ -16,28 +16,22 @@ class CartController {
     private final CartService cartService;
 
     @PostMapping("/{customerId}/{productId}/{quantity}")
-    public ResponseEntity<ItemDto> addItemToCart(@PathVariable Long customerId, @PathVariable Long productId, @PathVariable int quantity,@RequestParam(required = false) String temporaryCartId) {
+    public ResponseEntity<ItemDto> addItemToCart(@PathVariable Long customerId, @PathVariable Long productId, @PathVariable int quantity) {
         ItemDto cartDto = cartService.addItemToCart(customerId, productId, quantity);
         return ResponseEntity.ok().body(cartDto);
     }
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/{customerId}/{productId}")
-    public ResponseEntity<CartDto> removeItemFromCart(@PathVariable Long customerId, @PathVariable Long productId,@RequestParam(required = false) Long temporaryCartId) {
-        CartDto cartDto = cartService.removeItemFromCart(customerId, productId, temporaryCartId);
+    public ResponseEntity<CartDto> removeItemFromCart(@PathVariable Long customerId, @PathVariable Long productId) {
+        CartDto cartDto = cartService.removeItemFromCart(customerId, productId);
         return ResponseEntity.ok().body(cartDto);
     }
 
 
     @GetMapping("/{cartId}")
     public ResponseEntity<CartDto> getCart(@PathVariable Long cartId, @RequestHeader(value = "Authorization",required = false) String token) {
-        if (token != null && !token.isEmpty()) {
-            CartDto cart = cartService.getUserCart(token);
-            return ResponseEntity.ok().body(cart);
-        }
-        else{
-            CartDto cart = cartService.getGuestCart(cartId);
-            return ResponseEntity.ok().body(cart);
-        }
+        CartDto cart = cartService.getUserCart(token);
+        return ResponseEntity.ok().body(cart);
     }
 
     @PostMapping("/{customerId}")

@@ -3,7 +3,6 @@ package com.furkan.ecommerce.cart;
 import com.furkan.ecommerce.Item.Item;
 import com.furkan.ecommerce.Item.ItemDto;
 import com.furkan.ecommerce.customer.Customer;
-import com.furkan.ecommerce.customer.CustomerDto;
 import com.furkan.ecommerce.customer.CustomerRepository;
 import com.furkan.ecommerce.exception.BusinessException;
 import com.furkan.ecommerce.exception.UserNotFoundException;
@@ -70,18 +69,12 @@ public class CartService{
         return cartMapper.itemToItemDto(newItem);
     }
 
-    public CartDto removeItemFromCart(Long cartId, Long productId,Long temporaryCartId) {
+    public CartDto removeItemFromCart(Long cartId, Long productId) {
         productRepository.findById(productId)
                 .orElseThrow(() -> new BusinessException("Product not found", HttpStatus.NOT_FOUND));
 
-        Cart cart;
-        if(true) {
-            cart = cartRepository.findById(cartId)
+        Cart cart = cartRepository.findById(cartId)
                     .orElseThrow(() -> new BusinessException("Cart not found", HttpStatus.NOT_FOUND));
-        }else {
-            cart = cartRepository.findById(temporaryCartId)
-            .orElseThrow(() -> new BusinessException("Cart not found", HttpStatus.NOT_FOUND));
-        }
 
         Item cartItemToRemove = cart.getItems().stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
@@ -124,7 +117,7 @@ public class CartService{
         String name = jwtService.extractUsername(jwt);
 
         Customer customer = customerRepository.findByEmail(name).orElseThrow();
-        Cart cart = cartRepository.findById(customer.getId()).orElseThrow(() -> new RuntimeException("Cart not found"));
+        Cart cart = cartRepository.findByCustomerId(customer.getId()).orElseThrow(() -> new RuntimeException("Cart not found"));
 
         List<ItemDto> cartItems = getCartItems(cart);
         BigDecimal totalAmount = getTotalPrice(cart);
@@ -158,6 +151,11 @@ public class CartService{
                 new UserNotFoundException("Cart not found for user id: " + cartId, HttpStatus.NOT_FOUND));
     }
 
-
-
+    public void createCart(Customer customer) {
+        Cart cart = Cart.builder()
+                .customer(customer)
+                .totalAmount(BigDecimal.ZERO)
+                .build();
+        cartRepository.save(cart);
+    }
 }

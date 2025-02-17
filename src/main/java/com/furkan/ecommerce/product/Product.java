@@ -3,6 +3,7 @@ package com.furkan.ecommerce.product;
 import com.furkan.ecommerce.category.Category;
 import com.furkan.ecommerce.image.Image;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ public class Product {
     private Long id;
     private String name;
     private BigDecimal price;
+    @Min(value = 0)
     private int inventory;
     private String description;
 

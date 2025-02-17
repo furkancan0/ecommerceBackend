@@ -43,7 +43,7 @@ public class Customer implements UserDetails{
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
 
