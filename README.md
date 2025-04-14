@@ -2,6 +2,7 @@
 -Jwt   
 -RoleBased authorization    
 -Stripe Payment  
+-Cart(inventory)* actions
 -Global exception handle  
 -Spring mapper  
 -Package By Feature  
