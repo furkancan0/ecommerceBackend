@@ -12,7 +12,8 @@ This project uses **Spring Security 6** for a modern, modular, and declarative s
 - Stateless session management for REST APIs    
 - Centralized security configuration via `SecurityFilterChain`    
 - CSRF disabled for non-browser clients    
-- Annotation authorization with `@PreAuthorize` and role checks  
+- Annotation authorization with `@PreAuthorize` and role checks
+- Jwt integration  
   
 💳 Stripe Payment Integration  
 -Integrated with Stripe for secure and real-world payment processing.  
